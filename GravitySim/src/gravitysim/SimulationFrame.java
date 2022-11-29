@@ -212,7 +212,7 @@ public class SimulationFrame extends JFrame {
 		loadPanel.setBackground(new Color(108,148,184));
 		
 		// GET THE SAVE FILE NAMES
-		File dir = new File("D:\\eclipse-workspace\\GravitySim\\src\\resources\\saves");
+		File dir = new File("src\\resources\\saves");
 		String[] files = dir.list();
 		
 		// PUT IT IN THE COMBOBOX, PUT THE COMBOBOX ON THE PANEL
