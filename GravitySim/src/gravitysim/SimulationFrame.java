@@ -56,7 +56,7 @@ public class SimulationFrame extends JFrame {
 		super("Gravity Simulation");
 		super.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setLayout(new BorderLayout());
-		this.setSize(1280, 960);
+		this.setSize(1200, 600);
 		this.setBackground(new Color(66,66,66));
 
 		// SET THE WINDOW TO THE MIDDLE OF THE SCREEN
