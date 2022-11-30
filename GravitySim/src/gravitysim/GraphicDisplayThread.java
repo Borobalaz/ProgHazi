@@ -14,7 +14,11 @@ public class GraphicDisplayThread extends Thread {
 	@Override
 	public void run() {
 		
-		sp.repaint();
+		while(true) {
+			
+			sp.paint(sp.getGraphics());
+		}
+		
 		
 	}
 }

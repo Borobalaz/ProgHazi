@@ -21,17 +21,27 @@ public class ObjectSet extends Thread implements PersistentObjectSet{
 	@Override
 	public void run() {
 		
+		
 		while(!stop) {
-			for(MovingObject tmp : movingObjects) {
 			
-				tmp.move(massObjects);
-				System.out.println(tmp.nextState.getPos());
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			for(MovingObject tmp : movingObjects) {
 			
-				tmp = tmp.nextState;
-				System.out.println("double buffer");
+				tmp.move(massObjects);
+				System.out.println(tmp.getPos());
+			}
+			for(MovingObject tmp : movingObjects) {
+			
+				//tmp = tmp.nextState;
+				//System.out.println("double buffer");
 			}	
+			
+			
 			
 		}
 	}

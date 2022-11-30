@@ -65,8 +65,9 @@ public class MovingObject extends MassObject {
 				Fdir.multiply( F.length() / (this.getMass()*time*time))
 			);  
 		
-		this.nextState.setPos(pos1);
-		
+		this.setPos(pos1);
+	
+		//this.setPos(getPos().minus(new vec2(1,1)));
 	}
 	
 }

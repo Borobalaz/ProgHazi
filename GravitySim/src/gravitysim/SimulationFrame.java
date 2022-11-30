@@ -4,18 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 
 import javax.swing.*;
@@ -35,7 +29,7 @@ public class SimulationFrame extends JFrame {
 	//	MENU
 	private JPanel menuPanel;
 	private JSlider massSlider;
-	private JComboBox objType;
+	private JComboBox<String> objType;
 	private JSlider radiusSlider;
 	
 	//	SAVE SET
@@ -44,7 +38,7 @@ public class SimulationFrame extends JFrame {
 	
 	//	LOAD SET
 	private JPanel loadPanel;
-	private JComboBox savedSets;
+	private JComboBox<String> savedSets;
 	
 	ObjectSet objectSet;
 	
@@ -158,11 +152,15 @@ public class SimulationFrame extends JFrame {
 			public void actionPerformed(ActionEvent evt) {
 
 				
-				if(objectSet.getState() == Thread.State.NEW)	objectSet.start();
+				if(objectSet.getState() == Thread.State.NEW)	
+					objectSet.start();
+				
 				else if(objectSet.getState() == Thread.State.TERMINATED ){
 					System.out.println(objectSet.getState().toString());
 					objectSet.stop = false;
 				}
+				
+				System.out.println("gdt created");
 				GraphicDisplayThread gdt = new GraphicDisplayThread(simPanel);
 				gdt.start();
 			}
@@ -170,8 +168,16 @@ public class SimulationFrame extends JFrame {
 		stopSim.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent evt) {
-		
+				
+				
 				objectSet.stop = true;
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				System.exit(1);
 				
 			}
 		});
