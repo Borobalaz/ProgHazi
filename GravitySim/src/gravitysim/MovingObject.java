@@ -39,7 +39,7 @@ public class MovingObject extends MassObject {
 	
 	public void move(ArrayList<MassObject> massObjects) {
 		
-		vec2 F = new vec2(0,0);
+		/*vec2 F = new vec2(0,0);
 		// Calculate sum(F)
 		for(MassObject tmp : massObjects) {			
 		
@@ -65,9 +65,9 @@ public class MovingObject extends MassObject {
 				Fdir.multiply( F.length() / (this.getMass()*time*time))
 			);  
 		
-		this.setPos(pos1);
+		this.setPos(pos1);*/
 	
-		//this.setPos(getPos().minus(new vec2(1,1)));
+		this.setPos(getPos().minus(new vec2(1,1)));
 	}
 	
 }
