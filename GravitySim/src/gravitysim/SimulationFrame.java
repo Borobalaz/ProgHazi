@@ -114,28 +114,27 @@ public class SimulationFrame extends JFrame {
 		String[] cb = {"movingObject", "massObject"};
 		objType = new JComboBox<String>(cb);	menuPanel.add(objType);
 		
-		// TEXTS
+		// TEXTS / SLIDERS
 		menuPanel.add(new JLabel("Mass: "));
-		massSlider = new JSlider(JSlider.HORIZONTAL, 10, 100, 55);	menuPanel.add(massSlider);
-		menuPanel.add(new JLabel("Radius: "));
-		radiusSlider = new JSlider(JSlider.HORIZONTAL, 10, 100, 55);	menuPanel.add(radiusSlider);
+		massSlider = new JSlider(JSlider.HORIZONTAL, 10, 50, 30);	
+		massSlider.setSnapToTicks(true);
+		Dimension d = massSlider.getPreferredSize();
+		massSlider.setPreferredSize(new Dimension(d.width-50,d.height));
+		menuPanel.add(massSlider);
 		
-		//BUTTONS
-		JButton placeObj = new JButton("Place object");	menuPanel.add(placeObj);
-		JButton saveSet = new JButton("Save set");	menuPanel.add(saveSet);
+		menuPanel.add(new JLabel("Radius: "));
+		radiusSlider = new JSlider(JSlider.HORIZONTAL, 10, 100, 55);	
+		radiusSlider.setSnapToTicks(true);
+		radiusSlider.setPreferredSize(new Dimension(d.width-50,d.height));
+		menuPanel.add(radiusSlider);
+		
+		//BUTTONS / LABELS
+		JLabel placeObj = new JLabel("<html>Click on the simulation panel to place object</html>"); menuPanel.add(placeObj);
+		JButton saveSet = new JButton("Save set"); menuPanel.add(saveSet);
 		JButton loadSet = new JButton("Load set");	menuPanel.add(loadSet);
 		JButton startSim = new JButton("Start sim");	menuPanel.add(startSim);
 		JButton stopSim = new JButton("Stop!");	menuPanel.add(stopSim);
-		
-		
-		// ACTION LISTENERS
-		placeObj.addActionListener(new ActionListener() {
 			
-			public void actionPerformed(ActionEvent evt) {
-				
-				//TODO
-			}
-		});
 		saveSet.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent evt) {

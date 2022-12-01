@@ -1,7 +1,10 @@
 package gravitysim;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import javax.json.Json;
+import javax.json.JsonObject;
 
 public class ObjectSet extends Thread implements PersistentObjectSet{
 	
@@ -18,6 +21,12 @@ public class ObjectSet extends Thread implements PersistentObjectSet{
 	public void addMovObj(MovingObject mo) {	movingObjects.add(mo);	massObjects.add(mo);}
 	public ArrayList<MassObject> getMassObjects()	{	return massObjects;}
 	public ArrayList<MovingObject> getMovObjects()	{	return movingObjects;}
+	
+	public boolean isMovingObject(MassObject mo) {
+		
+		if(movingObjects.contains(mo)) return true;
+		else return false;
+	}
 	
 	@Override
 	public void run() {
@@ -39,13 +48,44 @@ public class ObjectSet extends Thread implements PersistentObjectSet{
 		}
 	}
 	
-	public void save(File file) {
+	public void save(String filename) {
 		
-		// TODO
+		for(MassObject tmp : massObjects) {
+			
+			if(isMovingObject(tmp)) {
+				
+				JsonObject massValue = Json.createObjectBuilder()
+						.add("type", "massObject")
+						.add("position", tmp.getPos().toString())
+						.add("mass", tmp.getMass())
+						.add("radius", tmp.getRadius())
+						.build();
+						
+				// CONTINUE
+						
+								
+			}
+			else {
+				
+				JsonObject massValue = Json.createObjectBuilder()
+				.add("type", "massObject")
+				.add("position", tmp.getPos().toString())
+				.add("mass", tmp.getMass())
+				.add("radius", tmp.getRadius())
+				.build();
+				
+				JsonObject jobj = Json.createObjectBuilder()
+						.add("massObject", massValue)
+						.build();
+				
+			}
+			
+		}
+		//TODO
 		
 	}
 	
-	public void load(File file) {
+	public void load(String filename) {
 		
 		// TODO
 	}
