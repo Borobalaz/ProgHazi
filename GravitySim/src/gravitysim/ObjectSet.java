@@ -1,10 +1,11 @@
 package gravitysim;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import javax.json.Json;
-import javax.json.JsonObject;
 
 public class ObjectSet extends Thread implements PersistentObjectSet{
 	
@@ -48,45 +49,17 @@ public class ObjectSet extends Thread implements PersistentObjectSet{
 		}
 	}
 	
-	public void save(String filename) {
+	public void save(String filename) throws IOException {
 		
-		for(MassObject tmp : massObjects) {
-			
-			if(isMovingObject(tmp)) {
-				
-				JsonObject massValue = Json.createObjectBuilder()
-						.add("type", "massObject")
-						.add("position", tmp.getPos().toString())
-						.add("mass", tmp.getMass())
-						.add("radius", tmp.getRadius())
-						.build();
-						
-				// CONTINUE
-						
-								
-			}
-			else {
-				
-				JsonObject massValue = Json.createObjectBuilder()
-				.add("type", "massObject")
-				.add("position", tmp.getPos().toString())
-				.add("mass", tmp.getMass())
-				.add("radius", tmp.getRadius())
-				.build();
-				
-				JsonObject jobj = Json.createObjectBuilder()
-						.add("massObject", massValue)
-						.build();
-				
-			}
-			
-		}
-		//TODO
 		
+		String path = "src\\resources\\saves\\" + filename + ".json";
+		FileWriter fw = new FileWriter(new File(path));
+		//XMLOutPutter xmlOutputter = new XMLOutPutter();
+		
+		fw.close();
 	}
 	
-	public void load(String filename) {
+	public void load(String filename) throws FileNotFoundException {
 		
-		// TODO
 	}
 }

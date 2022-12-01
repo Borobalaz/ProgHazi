@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.swing.*;
@@ -206,8 +207,17 @@ public class SimulationFrame extends JFrame {
 			
 			public void actionPerformed(ActionEvent evt) {
 				
+				try {
+					objectSet.save(saveText.getText());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 				CardLayout c1 = (CardLayout)cards.getLayout();
 				c1.show(cards, "menupanel");
+				
+				
 			}
 		}); 
 		
@@ -234,7 +244,12 @@ public class SimulationFrame extends JFrame {
 			
 			public void actionPerformed(ActionEvent evt) {
 				
-				//TODO
+				try {
+					objectSet.load((String)savedSets.getSelectedItem());
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 				CardLayout c1 = (CardLayout)cards.getLayout();
 				c1.show(cards, "menupanel");
