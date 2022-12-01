@@ -2,10 +2,18 @@ package gravitysim;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.output.XMLOutputter;
+import org.xml.sax.SAXException;
 
 public class ObjectSet extends Thread implements PersistentObjectSet{
 	
@@ -52,14 +60,63 @@ public class ObjectSet extends Thread implements PersistentObjectSet{
 	public void save(String filename) throws IOException {
 		
 		
-		String path = "src\\resources\\saves\\" + filename + ".json";
+		String path = "src\\resources\\saves\\" + filename + ".xml";
 		FileWriter fw = new FileWriter(new File(path));
-		//XMLOutPutter xmlOutputter = new XMLOutPutter();
+		XMLOutputter xmlOutputter = new XMLOutputter();
+		Document doc = new Document();
+		Element root = new Element("root");
+		doc.setRootElement(root);
+		Element massElements = new Element("massObjects");	root.addContent(massElements);
+		Element movingElements = new Element("movingObjects");	root.addContent(movingElements);
+		
+		for(MovingObject tmp : movingObjects) {
+			
+			movingElements.addContent(
+					new Element("movingObject")
+						.setAttribute("position", tmp.getPos().toString())
+						.setAttribute("mass", String.valueOf(tmp.getMass()))
+						.setAttribute("radius", String.valueOf(tmp.getRadius()))
+						.setAttribute("velocity", String.valueOf(tmp.getVelo()))
+						.setAttribute("direction", tmp.getDir().toString())	
+					);
+		}
+		for(MassObject tmp : massObjects) {
+			
+			if(!isMovingObject(tmp)) {
+				
+				massElements.addContent(
+					new Element("massObject")
+						.setAttribute("position", tmp.getPos().toString())
+						.setAttribute("mass", String.valueOf(tmp.getMass()))
+						.setAttribute("radius", String.valueOf(tmp.getRadius()))
+					);
+			}
+		}
+		
+		xmlOutputter.output(doc, fw);
 		
 		fw.close();
 	}
 	
 	public void load(String filename) throws FileNotFoundException {
 		
+		String path = "src\\resources\\saves\\" + filename;
+		ObjectSetXMLHandler handler = new ObjectSetXMLHandler();
+		SAXParserFactory factory = SAXParserFactory.newInstance();
+		SAXParser parser;
+		try {
+			parser = factory.newSAXParser();
+			parser.parse(new File(path), handler);
+			
+		} catch (ParserConfigurationException | SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		massObjects = handler.getMassObjects();
+		movingObjects = handler.getMovObjects();
 	}
 }

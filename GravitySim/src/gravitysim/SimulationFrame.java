@@ -251,6 +251,8 @@ public class SimulationFrame extends JFrame {
 					e.printStackTrace();
 				}
 				
+				simPanel.repaint();
+				
 				CardLayout c1 = (CardLayout)cards.getLayout();
 				c1.show(cards, "menupanel");
 			}
