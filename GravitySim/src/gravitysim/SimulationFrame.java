@@ -16,7 +16,8 @@ import javax.swing.*;
 
 /*
  * TODO:
- * 
+ * 		save set
+ * 		load set
  */
 
 public class SimulationFrame extends JFrame {
@@ -41,6 +42,7 @@ public class SimulationFrame extends JFrame {
 	private JComboBox<String> savedSets;
 	
 	ObjectSet objectSet;
+	vec2 frameSize;
 	
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	CTOR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	
@@ -50,7 +52,8 @@ public class SimulationFrame extends JFrame {
 		super("Gravity Simulation");
 		super.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setLayout(new BorderLayout());
-		this.setSize(1200, 600);
+		frameSize = new vec2(1200,600);
+		this.setSize((int)frameSize.x, (int)frameSize.y);
 		this.setBackground(new Color(66,66,66));
 
 		// SET THE WINDOW TO THE MIDDLE OF THE SCREEN
@@ -62,8 +65,10 @@ public class SimulationFrame extends JFrame {
 	    // CREATE SIM OBJECTS
 	    objectSet = new ObjectSet();
 	    
-	    MovingObject mo = new MovingObject(new vec2(500,500), 2, 3, Color.RED, 4, new vec2(0,1));
-	    objectSet.addMassObj(mo);	objectSet.addMovObj(mo);
+	    MovingObject mo = new MovingObject(new vec2(550,300), 2, 3, Color.RED, 10, new vec2(0,1));
+	    objectSet.addMovObj(mo);
+	    MovingObject mo2 = new MovingObject(new vec2(650,300), 2, 3, Color.RED, 10, new vec2(0,-1));
+	    objectSet.addMovObj(mo2);
 	    
 	    simPanel = new SimPanel(objectSet);
 	    simPanel.addMouseListener(new MyMouseAdapter());
@@ -246,16 +251,31 @@ public class SimulationFrame extends JFrame {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			
-			//TODO
-			
-			MassObject mo = new MassObject(
+			if(objType.getSelectedItem().equals("massObject")) {
+				
+				MassObject mo = new MassObject(
 					new vec2(e.getX(), e.getY()), 
 					massSlider.getValue(), 
 					radiusSlider.getValue(),
-					new Color(0,0,0)
+					Color.BLACK
 				);
 			
-			objectSet.addMassObj(mo);
+				objectSet.addMassObj(mo);
+			}
+			else if(objType.getSelectedItem().equals("movingObject")) {
+				
+				MovingObject mo = new MovingObject(
+					new vec2(e.getX(), e.getY()),
+					massSlider.getValue(),
+					radiusSlider.getValue(),
+					Color.RED,
+					0,
+					new vec2(0,0)
+					);
+				objectSet.addMovObj(mo);
+			}
+			
+			
 			//objectSet.getMovObjects().get(0).setPos(new vec2(100,100));
 			simPanel.repaint();
 		}

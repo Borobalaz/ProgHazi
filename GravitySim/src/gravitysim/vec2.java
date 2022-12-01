@@ -33,4 +33,8 @@ public class vec2 {
 		
 		return new vec2(x*f, y*f);
 	}
+	public vec2 divide(float f) {
+		
+		return new vec2(x/f, y/f);
+	}
 }
