@@ -37,36 +37,44 @@ public class MovingObject extends MassObject {
 	public float getVelo() {	return velocity;}
 	public vec2 getDir() {	return direction;}
 	
+	public void setVelo(float _velo) {velocity = _velo;}
+	public void setDir(vec2 _dir) {direction = _dir;}
+	
 	public void move(ArrayList<MassObject> massObjects) {
 		
-		vec2 F = new vec2(0,0);
-		// Calculate sum(F)
-		for(MassObject tmp : massObjects) {			
+		vec2 v1 = direction.multiply(velocity);
+		vec2 Fe = new vec2(0,0);
+		float G = 10000;
+		float t = 0.1f;
 		
-			vec2 Fi = tmp.getPos().minus(this.getPos());
-			Fi = Fi.normalize();
+		// calculating Fe
+		for(MassObject tmp : massObjects) {
 			
-			float attraction = 0.005f;
-			
-			// Fi = normalize(Pi - pos) * G*(mi*m / square(|Pi-pos|))
-			Fi = Fi.multiply(
-					attraction * tmp.getMass() * this.getMass() 
-					/ 
-					(tmp.getPos().minus(this.getPos()).length() *
-						tmp.getPos().minus(this.getPos()).length())
-					);
-			
-			F = F.plus(Fi);
+			if(tmp != this) {
+				
+				vec2 FiNormal = tmp.getWPos().minus(this.getWPos());
+				FiNormal = FiNormal.normalize();
+				float dist2 = tmp.getWPos().minus(this.getWPos()).length();
+				dist2 = dist2 * dist2;
+				float Flenght = G * this.getMass() * tmp.getMass() / dist2;
+				
+				Fe = Fe.plus(FiNormal.multiply(Flenght));
+			}
 		}
+		System.out.println("Fe: " + Fe);
+		System.out.println("Mass: " + this.getMass());
 		
-		vec2 Fdir = F.normalize();
-		float time = 1;
-		vec2 pos1 = this.getPos().plus( 
-				Fdir.multiply( F.length() / (this.getMass()*time*time))
-			);  
 		
-		this.nextState.setPos(pos1);
+		vec2 v = Fe.multiply(t).divide(this.getMass());
+		v1 = v1.plus(v);
+		System.out.println("v: " + v);
+		System.out.println("v1: " + v1);
+		vec2 pos1 = this.getWPos().plus(v1.multiply(t));
 		
+		this.setWPos(pos1);
+		this.setVelo(v1.length());
+		this.setDir(v1.normalize());
+		//this.setPos(getPos().minus(new vec2(1,1)));
 	}
 	
 }

@@ -27,10 +27,22 @@ public class vec2 {
 		return new vec2(x / this.length(), y / this.length());
 	}
 	public String toString() {
-		return "(" + x + "," + y + ")";
+		return x + "," + y;
 	}
 	public vec2 multiply(float f) {
 		
 		return new vec2(x*f, y*f);
+	}
+	public vec2 divide(float f) {
+		
+		return new vec2(x/f, y/f);
+	}
+	
+	static vec2 parseVec2(String string) {
+		
+		//string.substring(1, string.length()-1);
+		String coords[] = string.split(",");
+		
+		return new vec2(Float.parseFloat(coords[0]), Float.parseFloat(coords[1]));
 	}
 }
