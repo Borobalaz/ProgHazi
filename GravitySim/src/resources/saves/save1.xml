@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root><massObjects /><movingObjects><movingObject position="550.0,300.0" mass="2" radius="3" velocity="10.0" direction="0.0,1.0" /><movingObject position="650.0,300.0" mass="2" radius="3" velocity="10.0" direction="0.0,-1.0" /></movingObjects></root>
