@@ -45,9 +45,6 @@ public class MassObject {
 	public String toString() {	return "pos: " + position + " mass: " + mass + " radius: " + radius;}
 	public void setWPos(vec2 _wpos) {	wPos = _wpos;}
 	
-	//@Override
-	//public Class<?> getClass()	{	return MassObject.class;}
-	
 	public void draw(Graphics g) {
 		position = new vec2(wPos.x, -wPos.y);
 		g.setColor(color);
