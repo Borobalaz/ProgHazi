@@ -13,12 +13,21 @@ public class ObjectSetXMLHandler extends DefaultHandler{
 	public ArrayList<MassObject> getMassObjects() {	return objectSet.getMassObjects();}
 	public ArrayList<MovingObject> getMovObjects()	{return objectSet.getMovObjects();}
 	
+	/*
+	 * Creates an empty ObjectSet
+	 * @see org.xml.sax.helpers.DefaultHandler#startDocument()
+	 */
 	@Override
 	public void startDocument() {
 		
 		objectSet = new ObjectSet();
 	}
 	
+	/*
+	 * Reads the element, and constructs a new object in case of the element storing one
+	 * Puts it in the ObjectSet
+	 * @see org.xml.sax.helpers.DefaultHandler#startElement(java.lang.String, java.lang.String, java.lang.String, org.xml.sax.Attributes)
+	 */
 	@Override
 	public void startElement(String uri,
 			String localName, String qName,

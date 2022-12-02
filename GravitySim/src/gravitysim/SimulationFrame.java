@@ -47,6 +47,10 @@ public class SimulationFrame extends JFrame {
 	
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	CTOR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	
+	/**
+     * Constructs the window of the application
+     *
+     */
 	public SimulationFrame() {
 		
 		// CREATE FRAME
@@ -66,11 +70,6 @@ public class SimulationFrame extends JFrame {
 	    // CREATE SIM OBJECTS
 	    objectSet = new ObjectSet();
 	    
-	    MovingObject mo = new MovingObject(new vec2(550,300), 2, 3, Color.RED, 10, new vec2(0,1));
-	    objectSet.addMovObj(mo);
-	    MovingObject mo2 = new MovingObject(new vec2(650,300), 2, 3, Color.RED, 10, new vec2(0,-1));
-	    objectSet.addMovObj(mo2);
-	    
 	    simPanel = new SimPanel(objectSet);
 	    simPanel.addMouseListener(new MyMouseAdapter());
 		this.add(simPanel, BorderLayout.CENTER);
@@ -80,6 +79,9 @@ public class SimulationFrame extends JFrame {
 	
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~  INIT_COMPONENTS  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	
+	/**
+	 * 	Constructs the different components of the program interface
+	 */
 	public void initComponents() {
 	
 		// INIT MENU PANELS
@@ -106,6 +108,9 @@ public class SimulationFrame extends JFrame {
 	
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~  INIT_MENU_PANEL  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	
+	/**
+	 * 	Constructs the menu interface
+	 */
 	public void initMenuPanel(JFrame jf) {
 		
 		// CREATE PANEL
@@ -191,6 +196,9 @@ public class SimulationFrame extends JFrame {
 
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~  INIT_SAVE_PANEL  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	
+	/**
+	 * 	Constructs the "save set" interface
+	 */
 	public void initSavePanel() {
 		
 		// CREATE PANEL
@@ -216,8 +224,6 @@ public class SimulationFrame extends JFrame {
 				
 				CardLayout c1 = (CardLayout)cards.getLayout();
 				c1.show(cards, "menupanel");
-				
-				
 			}
 		}); 
 		
@@ -225,6 +231,9 @@ public class SimulationFrame extends JFrame {
 	
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~  INIT_LOAD_PANEL  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	
+	/**
+	 * 	Constructs the "load set" interface
+	 */
 	public void initLoadPanel() throws IOException {
 		
 		// CREATE LOAD PANEL
@@ -263,7 +272,10 @@ public class SimulationFrame extends JFrame {
 	
 	class MyMouseAdapter extends MouseAdapter{
 		
-		
+		/*
+		 * Mouse adapter for placing objects on the simulation frame
+		 * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)
+		 */
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			
@@ -298,6 +310,9 @@ public class SimulationFrame extends JFrame {
 	}
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  MAIN  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	
+	/*
+	 * main method
+	 */
 	public static void main(String[] args) {
 		
 		SimulationFrame sf = new SimulationFrame();

@@ -9,15 +9,27 @@ public class MovingObject extends MassObject {
 	private vec2 direction;
 	MovingObject nextState;
 	
-	// DEFAULT CTOR
+	/*
+	 * Default constructor, every private element is set to 0 (null)
+	 */
 	public MovingObject() {
 		super();
 		velocity = 0;
 		direction = new vec2(0,0);
 		nextState = null;
+		super.setColor(Color.RED);
 	}
 	
-	// CTOR
+	/*
+	 * Constructor
+	 * 
+	 * @param p position of object
+	 * @param m mass of the object
+	 * @param r radius of object
+	 * @param c color of the object
+	 * @param v starting velocity of the object
+	 * @param dir normal direction vector of starting motion
+	 */
 	public MovingObject(vec2 p, int m, int r, Color c, float v, vec2 dir) {
 		
 		super(p, m, r, c);
@@ -26,7 +38,11 @@ public class MovingObject extends MassObject {
 		nextState = new MovingObject(this);
 	}
 	
-	// COPY CTOR
+	/*
+	 * Copy constructor
+	 * 
+	 * @param tmp object to be copied
+	 */
 	public MovingObject(MovingObject tmp) {
 		super(tmp.getPos(), tmp.getMass(), tmp.getRadius(), tmp.getColor());
 		velocity = tmp.getVelo();
@@ -34,12 +50,24 @@ public class MovingObject extends MassObject {
 		nextState = null;
 	}
 	
+	/*
+	 * Getters
+	 */
 	public float getVelo() {	return velocity;}
 	public vec2 getDir() {	return direction;}
 	
+	/*
+	 * Setters
+	 */
 	public void setVelo(float _velo) {velocity = _velo;}
 	public void setDir(vec2 _dir) {direction = _dir;}
 	
+	/*
+	 * Calculates, and sets the new position of the object
+	 * Move() is called iteratively to keep the object in motion
+	 * 
+	 * @param massObjects objects that attract the movingObject
+	 */
 	public void move(ArrayList<MassObject> massObjects) {
 		
 		vec2 v1 = direction.multiply(velocity);

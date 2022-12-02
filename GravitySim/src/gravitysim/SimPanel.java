@@ -16,10 +16,20 @@ public class SimPanel extends JPanel{
 	private static final long serialVersionUID = 1L;
 	ObjectSet objectSet;
 	
+	/*
+	 * Constructor
+	 * 
+	 * @param os ObjectSet to be drawn on the panel
+	 */
 	public SimPanel(ObjectSet os) {
 		objectSet = os;
 	}
 	
+	/*
+	 * Draw each object
+	 * 
+	 * @param g Graphics to be drawn on
+	 */
 	public void draw(Graphics g) {
 		
 		for(MassObject tmp : objectSet.getMassObjects()) {
@@ -29,6 +39,12 @@ public class SimPanel extends JPanel{
 		
 	}
 	
+	/*
+	 * Creates image for the panel
+	 * 
+	 * @param g Graphic to be created on
+	 * @see javax.swing.JComponent#paint(java.awt.Graphics)
+	 */
 	public void paint(Graphics g) {
 		
 		dbImage = createImage(getWidth(), getHeight());

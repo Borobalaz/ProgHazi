@@ -21,22 +21,50 @@ public class ObjectSet extends Thread implements PersistentObjectSet{
 	private ArrayList<MovingObject> movingObjects;
 	public boolean stop;
 	
+	/*
+	 * Default constructor
+	 */
 	public ObjectSet() {
 		massObjects = new ArrayList<MassObject>();
 		movingObjects = new ArrayList<MovingObject>();
 	}
 	
+	/*
+	 * Adds a new object to massObjects
+	 * 
+	 * @param mo object to be added
+	 */
 	public void addMassObj(MassObject mo) {	massObjects.add(mo);}
+	
+	/*
+	 * Adds a new object to movingObjects
+	 * 
+	 * @param mo object to be added
+	 */
 	public void addMovObj(MovingObject mo) {	movingObjects.add(mo);	massObjects.add(mo);}
+	
+	/*
+	 * getters
+	 */
 	public ArrayList<MassObject> getMassObjects()	{	return massObjects;}
 	public ArrayList<MovingObject> getMovObjects()	{	return movingObjects;}
 	
+	/*
+	 * Checks if a massObject is present in the movingObjects list
+	 * 
+	 * @param mo Object to be tested
+	 * @return true if movingObjects contains mo, else false
+	 */
 	public boolean isMovingObject(MassObject mo) {
 		
 		if(movingObjects.contains(mo)) return true;
 		else return false;
 	}
 	
+	/*
+	 * Iteratively calls move() on every movingObject in the set, simulating attraction
+	 * @see java.lang.Thread#run()
+	 */
 	@Override
 	public void run() {
 		
@@ -57,6 +85,9 @@ public class ObjectSet extends Thread implements PersistentObjectSet{
 		}
 	}
 	
+	/*
+	 * @see gravitysim.PersistentObjectSet#save(java.lang.String)
+	 */
 	public void save(String filename) throws IOException {
 		
 		
@@ -98,6 +129,9 @@ public class ObjectSet extends Thread implements PersistentObjectSet{
 		fw.close();
 	}
 	
+	/*
+	 * @see gravitysim.PersistentObjectSet#load(java.lang.String)
+	 */
 	public void load(String filename) throws FileNotFoundException {
 		
 		String path = "src\\resources\\saves\\" + filename;
