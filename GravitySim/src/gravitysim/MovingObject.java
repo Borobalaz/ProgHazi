@@ -62,13 +62,20 @@ public class MovingObject extends MassObject {
 	public void setVelo(float _velo) {velocity = _velo;}
 	public void setDir(vec2 _dir) {direction = _dir;}
 	
+	public void copyFrom(MovingObject tmp) {
+		
+		this.setWPos(tmp.getWPos());
+		this.setVelo(tmp.getVelo());
+		this.setDir(tmp.getDir());
+	}
+	
 	/*
 	 * Calculates, and sets the new position of the object
 	 * Move() is called iteratively to keep the object in motion
 	 * 
 	 * @param massObjects objects that attract the movingObject
 	 */
-	public void move(ArrayList<MassObject> massObjects) {
+	public void move(ArrayList<MassObject> massObjects, long time) {
 		
 		vec2 v1 = direction.multiply(velocity);
 		vec2 Fe = new vec2(0,0);
@@ -99,9 +106,9 @@ public class MovingObject extends MassObject {
 		System.out.println("v1: " + v1);
 		vec2 pos1 = this.getWPos().plus(v1.multiply(t));
 		
-		this.setWPos(pos1);
-		this.setVelo(v1.length());
-		this.setDir(v1.normalize());
+		nextState.setWPos(pos1);
+		nextState.setVelo(v1.length());
+		nextState.setDir(v1.normalize());
 		//this.setPos(getPos().minus(new vec2(1,1)));
 	}
 	

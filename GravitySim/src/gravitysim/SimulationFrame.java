@@ -15,12 +15,6 @@ import java.io.IOException;
 
 import javax.swing.*;
 
-/*
- * TODO:
- * 		save set
- * 		load set
- */
-
 public class SimulationFrame extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
@@ -32,7 +26,7 @@ public class SimulationFrame extends JFrame {
 	private JPanel menuPanel;
 	private JSlider massSlider;
 	private JComboBox<String> objType;
-	private JSlider radiusSlider;
+	private JSlider timeSlider;
 	
 	//	SAVE SET
 	private JPanel savePanel;
@@ -128,11 +122,11 @@ public class SimulationFrame extends JFrame {
 		massSlider.setPreferredSize(new Dimension(d.width-50,d.height));
 		menuPanel.add(massSlider);
 		
-		menuPanel.add(new JLabel("Radius: "));
-		radiusSlider = new JSlider(JSlider.HORIZONTAL, 10, 100, 55);	
-		radiusSlider.setSnapToTicks(true);
-		radiusSlider.setPreferredSize(new Dimension(d.width-50,d.height));
-		menuPanel.add(radiusSlider);
+		menuPanel.add(new JLabel("Speed: "));
+		timeSlider = new JSlider(JSlider.HORIZONTAL, 1, 100, 50);	
+		timeSlider.setSnapToTicks(true);
+		timeSlider.setPreferredSize(new Dimension(d.width-50,d.height));
+		menuPanel.add(timeSlider);
 		
 		//BUTTONS / LABELS
 		JLabel placeObj = new JLabel("<html>Click on the simulation panel to place object</html>"); menuPanel.add(placeObj);
@@ -170,7 +164,6 @@ public class SimulationFrame extends JFrame {
 					objectSet.stop = false;
 				}
 				
-				System.out.println("gdt created");
 				GraphicDisplayThread gdt = new GraphicDisplayThread(simPanel);
 				gdt.start();
 			}
@@ -184,7 +177,7 @@ public class SimulationFrame extends JFrame {
 				try {
 					Thread.sleep(2000);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
+					
 					e.printStackTrace();
 				}
 				System.exit(1);
@@ -218,7 +211,7 @@ public class SimulationFrame extends JFrame {
 				try {
 					objectSet.save(saveText.getText());
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
+					
 					e.printStackTrace();
 				}
 				
@@ -256,7 +249,7 @@ public class SimulationFrame extends JFrame {
 				try {
 					objectSet.load((String)savedSets.getSelectedItem());
 				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
+					
 					e.printStackTrace();
 				}
 				
@@ -272,39 +265,78 @@ public class SimulationFrame extends JFrame {
 	
 	class MyMouseAdapter extends MouseAdapter{
 		
+		vec2 pressPoint;
+		
 		/*
 		 * Mouse adapter for placing objects on the simulation frame
 		 * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)
 		 */
 		@Override
-		public void mouseClicked(MouseEvent e) {
+		public void mousePressed(MouseEvent e) {
 			
 			if(objType.getSelectedItem().equals("massObject")) {
 				
 				MassObject mo = new MassObject(
 					new vec2(e.getX(), e.getY()), 
 					massSlider.getValue(), 
-					radiusSlider.getValue(),
+					massSlider.getValue(),
 					Color.BLACK
 				);
 			
 				objectSet.addMassObj(mo);
+				simPanel.repaint();
 			}
 			else if(objType.getSelectedItem().equals("movingObject")) {
 				
-				MovingObject mo = new MovingObject(
-					new vec2(e.getX(), e.getY()),
-					massSlider.getValue(),
-					radiusSlider.getValue(),
-					Color.RED,
-					0,
-					new vec2(0,0)
+				pressPoint = new vec2(e.getX(), e.getY());
+				simPanel.getGraphics().drawOval(
+						(int)pressPoint.x - massSlider.getValue(), 
+						(int)pressPoint.y - massSlider.getValue(), 
+						massSlider.getValue()*2, 
+						massSlider.getValue()*2
 					);
-				objectSet.addMovObj(mo);
 			}
 			
 			
 			//objectSet.getMovObjects().get(0).setPos(new vec2(100,100));
+			
+		}
+		
+		@Override
+		public void mouseDragged(MouseEvent e) {
+			
+			if(objType.getSelectedItem().equals("movingObject")) {
+				
+				vec2 currentPoint = new vec2((float)e.getX(), (float)e.getY());
+				simPanel.getGraphics().drawLine(
+						(int)pressPoint.x, 
+						(int)pressPoint.y, 
+						(int)currentPoint.mirrorToPoint(pressPoint).x,
+						(int)currentPoint.mirrorToPoint(pressPoint).y
+						);
+			}
+				
+			
+		}
+		
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			
+			if(objType.getSelectedItem().equals("movingObject")) {
+				
+				vec2 releasePoint = new vec2(e.getX(), e.getY());
+				
+				MovingObject mo = new MovingObject(
+						pressPoint,
+						massSlider.getValue(),
+						massSlider.getValue(),
+						Color.RED,
+						releasePoint.minus(pressPoint).length(),
+						releasePoint.mirrorToPoint(pressPoint).minus(pressPoint).toWorldPos().normalize()
+						);
+					objectSet.addMovObj(mo);
+			}
+			
 			simPanel.repaint();
 		}
 	}

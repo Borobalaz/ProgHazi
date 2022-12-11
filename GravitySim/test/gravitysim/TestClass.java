@@ -127,7 +127,7 @@ public class TestClass {
 		Assert.assertNotNull(os.getMovObjects());
 	}
 	
-	@Test(expected=NullPointerException.class)
+	@Test(expected=FileNotFoundException.class)
 	public void testFileNotFound() throws IOException, FileNotFoundException {
 		
 		ObjectSet tmp = new ObjectSet(); // empty

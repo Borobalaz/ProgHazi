@@ -104,4 +104,14 @@ public class vec2 {
 		
 		return new vec2(Float.parseFloat(coords[0]), Float.parseFloat(coords[1]));
 	}
+	
+	public vec2 mirrorToPoint(vec2 origo) {
+		
+		return new vec2(-this.minus(origo).x + origo.x, -this.minus(origo).y + origo.y);
+	}
+	
+	public vec2 toWorldPos() {
+		
+		return new vec2(this.x, -this.y);
+	}	
 }

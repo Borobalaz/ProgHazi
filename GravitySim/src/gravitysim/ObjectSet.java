@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.JSlider;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -28,7 +29,6 @@ public class ObjectSet extends Thread implements PersistentObjectSet{
 		massObjects = new ArrayList<MassObject>();
 		movingObjects = new ArrayList<MovingObject>();
 	}
-	
 	/*
 	 * Adds a new object to massObjects
 	 * 
@@ -79,9 +79,14 @@ public class ObjectSet extends Thread implements PersistentObjectSet{
 			}
 			for(MovingObject tmp : movingObjects) {
 			
-				tmp.move(massObjects);
+				tmp.move(massObjects, 10);
 				System.out.println("Frame position: " + tmp.getPos() + "\nWorld position: " + tmp.getWPos());
-			}		
+				
+			}
+			for(MovingObject tmp : movingObjects) {
+				
+				tmp.copyFrom(tmp.nextState);
+			}
 		}
 	}
 	
@@ -135,6 +140,9 @@ public class ObjectSet extends Thread implements PersistentObjectSet{
 	public void load(String filename) throws FileNotFoundException {
 		
 		String path = "src\\resources\\saves\\" + filename;
+		if(!new File(path).exists()) {
+			throw new FileNotFoundException();
+		}
 		ObjectSetXMLHandler handler = new ObjectSetXMLHandler();
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		SAXParser parser;
